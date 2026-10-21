@@ -150,7 +150,8 @@ def read_latest_signals(limit: int = 50) -> list[dict]:
         ws = sh.worksheet("Signals")
     except gspread.WorksheetNotFound:
         return []
-    rows = ws.get_all_records()
+    # The stock_id column is text; keep ETF leading zeros in the premarket report/PDF.
+    rows = ws.get_all_records(numericise_ignore=[2])
     if not rows:
         return []
     return rows[-limit:][::-1]  # 最新的在最前面

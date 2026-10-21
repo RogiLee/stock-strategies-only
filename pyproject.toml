@@ -17,6 +17,9 @@ dependencies = [
     "pyarrow>=24.0.0",
 ]
 
+[project.optional-dependencies]
+pdf = ["playwright>=1.55,<2"]
+
 [dependency-groups]
 dev = [
     "httpx>=0.28.1",

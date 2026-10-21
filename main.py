@@ -123,14 +123,19 @@ def main():
 
     # 7. 發送 Telegram
     print("發送 Telegram...")
-    for msg in format_messages(results, watchlist, market=market, night_note=night_note):
+    messages = format_messages(results, watchlist, market=market, night_note=night_note)
+    for msg in messages:
         send_telegram(msg)
         time.sleep(0.5)
 
     # 8. 若有累積的成績單，額外推一則摘要
     if stats and stats["count"] >= 5:
-        send_telegram(_format_perf_message(stats))
+        messages.append(_format_perf_message(stats))
+        send_telegram(messages[-1])
 
+    # Add the approved reading-format PDF after the unchanged text report.
+    from stock_strategies.pdf_report import send_pdf_report
+    send_pdf_report("daily", results, messages, market=market, night=night)
     print("✅ 完成")
 
 

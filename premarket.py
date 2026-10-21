@@ -57,7 +57,10 @@ def main():
 
     # 3. 發送 Telegram 盤前快報
     print("發送 Telegram 盤前快報...")
-    send_telegram(format_premarket(night, signals))
+    message = format_premarket(night, signals)
+    send_telegram(message)
+    from stock_strategies.pdf_report import send_pdf_report
+    send_pdf_report("premarket", signals, [message], night=night)
     print("✅ 完成")
 
 
